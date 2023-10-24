@@ -15,12 +15,13 @@ public class Spider : Enemy, IDamageable
 
     public void Damage()
     {
-        Debug.Log("Damage: " + this.name);
-
-        health--;
+        Health--;
         anim.SetTrigger("Hit");
 
-        if (health < 1)        
-            anim.SetTrigger("Die");        
+        if (Health < 1)
+        {
+            anim.SetTrigger("Die");
+            Destroy(this.gameObject, 2.5f);
+        }
     }
 }
