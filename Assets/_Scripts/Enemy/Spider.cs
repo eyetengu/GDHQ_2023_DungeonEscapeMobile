@@ -5,6 +5,10 @@ using UnityEngine;
 public class Spider : Enemy, IDamageable
 {
     public int Health { get; set; }
+    private bool _hasPlayedDeathAnim;
+    [SerializeField] private GameObject _spiderAcidPrefab;
+
+
 
     //Use For Initialization
     public override void Init()
@@ -16,12 +20,26 @@ public class Spider : Enemy, IDamageable
     public void Damage()
     {
         Health--;
-        anim.SetTrigger("Hit");
-
-        if (Health < 1)
+        Debug.Log("Spider Damage");
+       if(Health < 1)
         {
+            isDead= true;
             anim.SetTrigger("Die");
-            Destroy(this.gameObject, 2.5f);
         }
+    }
+
+    public override void Update()
+    {
+
+    }
+
+    public override void Movement()
+    {
+        //sit still
+    }
+
+    public void Attack()
+    {
+        Instantiate(_spiderAcidPrefab, transform.position, Quaternion.identity);
     }
 }

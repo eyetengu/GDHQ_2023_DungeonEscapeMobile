@@ -68,6 +68,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8356756484541501590}
   - component: {fileID: 8356756484541501591}
+  - component: {fileID: 868068934}
   m_Layer: 0
   m_Name: Spider_Enemy
   m_TagString: Untagged
@@ -105,10 +106,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 2
   speed: 1
-  gems: 0
-  leftPoint: {fileID: 0}
-  rightPoint: {fileID: 0}
-  attackZone: 0
+  gems: 1
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
+  attackRange: 1.5
+  _spiderAcidPrefab: {fileID: 8829944168019346456, guid: 96ee5cc473cf55341925af8e2bb26da0, type: 3}
+--- !u!61 &868068934
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8356756484541501585}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.3242193}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.35156143}
+  m_EdgeRadius: 0
 --- !u!1 &8356756485364561155
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,6 +148,7 @@ GameObject:
   - component: {fileID: 8356756485364561152}
   - component: {fileID: 8356756485364561153}
   - component: {fileID: 8356756485364561158}
+  - component: {fileID: 673155728}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -215,3 +244,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &673155728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8356756485364561155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cecd69090fbee8c499a1c4706fe704eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

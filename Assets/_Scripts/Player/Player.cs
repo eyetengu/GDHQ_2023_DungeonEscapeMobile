@@ -5,7 +5,6 @@ using UnityEngine;
 public class Player : MonoBehaviour, IDamageable
 {
     private Rigidbody2D _rb;
-    private Animator _animator;
     private bool _grounded;
     [SerializeField] private float _jumpForce = 5.0f;
     private bool _resetJump = false;
@@ -14,17 +13,19 @@ public class Player : MonoBehaviour, IDamageable
     private SpriteRenderer _playerSpriteRenderer;
     private SpriteRenderer _swordAttackRenderer;
 
+    //PROPERTIES
     public int Health { get; set; }
 
+    //INITIALIZATION
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();  
-        _animator = GetComponentInChildren<Animator>();
         _playerAnim = GetComponent<PlayerAnimation>();
         _playerSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _swordAttackRenderer= transform.GetChild(1).GetComponent<SpriteRenderer>();
     }
 
+    //MAIN FLOW
     void Update()
     {
         Movement();
@@ -33,9 +34,9 @@ public class Player : MonoBehaviour, IDamageable
         {
             _playerAnim.Attack();
         }
-        //IsGrounded();
     }
 
+    //MAIN PLAYER BEHAVIORS
     private void Movement()
     {
         float move = Input.GetAxisRaw("Horizontal");
@@ -45,7 +46,7 @@ public class Player : MonoBehaviour, IDamageable
 
         if(Input.GetKeyDown(KeyCode.Space) && IsGrounded() == true)
         {
-            Debug.Log("Jumping");
+            //Debug.Log("Jumping");
             _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
             StartCoroutine(ResetJumpRoutine());
             _playerAnim.Jump(true);
@@ -57,7 +58,6 @@ public class Player : MonoBehaviour, IDamageable
         else
             _playerAnim.Move(move);    
     }
-
     private bool IsGrounded()
     {
         RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.down, 1.7f, 1 << 8);        
@@ -74,10 +74,8 @@ public class Player : MonoBehaviour, IDamageable
         //Debug.Log("Is NOT Grounded");
         return false;
     }  
-
     void Flip(float move) 
-    {
-          
+    {          
         if (move < 0)
         {
             _playerSpriteRenderer.flipX = true;
@@ -88,7 +86,6 @@ public class Player : MonoBehaviour, IDamageable
             newPos.x = -1.01f;
             _swordAttackRenderer.transform.localPosition = newPos;
         }
-
         else if (move > 0)
         {
             _playerSpriteRenderer.flipX = false;
@@ -101,11 +98,14 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
+    //DEBUG
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(0, -.85f, 0));
     }
+
+    //COROUTINES
     IEnumerator ResetJumpRoutine()
     {
         _resetJump = true;
@@ -113,6 +113,7 @@ public class Player : MonoBehaviour, IDamageable
         _resetJump= false;
     }
 
+    //INTERFACES
     public void Damage()
     {
         Debug.Log("Damaged player");

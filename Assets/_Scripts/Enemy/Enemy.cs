@@ -6,19 +6,19 @@ using UnityEngine.UIElements;
 public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] protected int health;
-
     [SerializeField] protected float speed;
-
     [SerializeField] protected int gems;
-
-    [SerializeField] protected Transform leftPoint, rightPoint;
+    [SerializeField] protected Transform pointA, pointB;
+    [SerializeField] private float attackRange;
 
     protected Vector3 currentTarget;
     protected Animator anim;
     protected SpriteRenderer sprite;
 
     protected bool isHit = false;
+
     protected Player player;
+    protected bool isDead;
 
 
     public virtual void Init()
@@ -26,8 +26,8 @@ public abstract class Enemy : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        
-        currentTarget = rightPoint.position;
+       
+        currentTarget = pointB.position;
     }
 
     private void Start()
@@ -40,49 +40,61 @@ public abstract class Enemy : MonoBehaviour
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && anim.GetBool("InCombat") == false)
             return;
           
-        Movement();
+        if(isDead == false)
+            Movement();
     }
 
     public virtual void Movement()
     {
-        //waypoint check routine
-        if (currentTarget == leftPoint.position)
+        //WAYPOINT CHECK ROUTINE
+        if (currentTarget == pointA.position)
             sprite.flipX = true;               
         else
             sprite.flipX = false;
 
-        //Waypoint Switch Routine
-        if(transform.position == leftPoint.position)
+        //SWITCH WAYPOINT ROUTINE
+        if(transform.position == pointA.position)
         {
-            currentTarget = rightPoint.position;
+            currentTarget = pointB.position;
             anim.SetTrigger("Idle");
         }
-        else if(transform.position == rightPoint.position)
+        else if(transform.position == pointB.position)
         {
-            currentTarget = leftPoint.position;
+            currentTarget = pointA.position;
             anim.SetTrigger("Idle");
         }
 
-        //Move The Player
+        //MOVE THE PLAYER
         if(isHit == false)
             transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
 
-
-
-
-
-        //Distance Checker
+        //DISTANCE CHECKER
         float distance = Vector3.Distance(transform.localPosition, player.transform.localPosition);
 
-        if(distance > 2.0f)
+        if(distance > attackRange)
         {
             isHit = false;
             anim.SetBool("InCombat", false);
         }
-        else if(distance < 2.0f)
+        else if(distance < attackRange)
         {
+            isHit = true;
             anim.SetBool("InCombat", true);
-            anim.SetBool("InCombat", false);
         }
+
+        //DIRECTION DETECTOR
+        Vector3 direction = player.transform.localPosition - transform.position;       
+
+        if (direction.x > 0 && anim.GetBool("InCombat") == true)
+        {
+            sprite.flipX = false;
+        }
+        else if (direction.x < 0 && anim.GetBool("InCombat") == true)
+        {
+            sprite.flipX = true;
+        }
+
     }
-}
+
+ }
+ 
