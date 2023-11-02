@@ -12,6 +12,8 @@ public class Player : MonoBehaviour, IDamageable
     private PlayerAnimation _playerAnim;
     private SpriteRenderer _playerSpriteRenderer;
     private SpriteRenderer _swordAttackRenderer;
+    public int diamonds;
+
 
     //PROPERTIES
     public int Health { get; set; }
@@ -96,6 +98,12 @@ public class Player : MonoBehaviour, IDamageable
             newPos.x = 1.01f;
             _swordAttackRenderer.transform.localPosition = newPos;
         }
+    }
+
+    //SCORE
+    public void IncreaseDiamonds(int droppedGems)
+    {
+        diamonds += droppedGems;
     }
 
     //DEBUG

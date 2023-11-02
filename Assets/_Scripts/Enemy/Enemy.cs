@@ -5,6 +5,8 @@ using UnityEngine.UIElements;
 
 public abstract class Enemy : MonoBehaviour
 {
+    [SerializeField] protected GameObject diamondPrefab;
+
     [SerializeField] protected int health;
     [SerializeField] protected float speed;
     [SerializeField] protected int gems;
